@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ── Spotify Design System ─────────────────────────────── */
+:root {
+  --sp-black:      #000000;
+  --sp-base:       #121212;
+  --sp-elevated:   #1a1a1a;
+  --sp-card:       #181818;
+  --sp-hover:      #282828;
+  --sp-border:     #2a2a2a;
+  --sp-green:      #1DB954;
+  --sp-green-dim:  #1aa34a;
+  --sp-white:      #FFFFFF;
+  --sp-subtext:    #B3B3B3;
+  --sp-muted:      #727272;
+
+  /* Safe area for iPhone notch/home indicator */
+  --safe-top:    env(safe-area-inset-top,    0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Bottom nav + mini player combined height */
+  --nav-h:       58px;
+  --mini-h:      72px;
+  --total-bottom: calc(var(--nav-h) + var(--mini-h) + var(--safe-bottom));
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: var(--sp-black);
+  color: var(--sp-white);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Hide scrollbars but keep scroll */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }
+
+/* ── Animations ────────────────────────────────────────── */
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(29,185,84,.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(29,185,84,0); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes eq-bar {
+  0%, 100% { height: 4px; }
+  50%       { height: 16px; }
+}
+
+.animate-slide-up  { animation: slideUp .35s cubic-bezier(.32,.72,0,1) forwards; }
+.animate-fade-in   { animation: fadeIn .2s ease forwards; }
+.animate-spin-slow { animation: spin-slow 8s linear infinite; }
+
+/* Equalizer bars when playing */
+.eq-bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; }
+.eq-bars span {
+  width: 3px;
+  background: var(--sp-green);
+  border-radius: 1px;
+  animation: eq-bar .8s ease-in-out infinite;
+}
+.eq-bars span:nth-child(2) { animation-delay: .15s; }
+.eq-bars span:nth-child(3) { animation-delay: .30s; }
+
+/* Progress bar range */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--sp-border);
+  outline: none;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--sp-white);
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  border-radius: 4px;
+  height: 4px;
+}
+
+/* ── Utility classes ───────────────────────────────────── */
+.text-subtext { color: var(--sp-subtext); }
+.text-muted   { color: var(--sp-muted); }
+.bg-card      { background: var(--sp-card); }
+.bg-elevated  { background: var(--sp-elevated); }
+.bg-hover:active { background: var(--sp-hover); }
+
+.sp-btn {
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; color: var(--sp-white);
+  cursor: pointer; padding: 8px; border-radius: 50%;
+  transition: transform .1s, opacity .15s;
+}
+.sp-btn:active { transform: scale(.92); opacity: .75; }
+
+.sp-btn-green {
+  background: var(--sp-green);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: transform .1s, background .15s;
+}
+.sp-btn-green:active { transform: scale(.93); background: var(--sp-green-dim); }
+
+/* ── Full screen overlay ───────────────────────────────── */
+.full-player-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* ── Gradient card thumb ───────────────────────────────── */
+.thumb-placeholder {
+  background: linear-gradient(135deg, #3d3d3d 0%, #1a1a1a 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
